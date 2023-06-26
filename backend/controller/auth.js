@@ -9,23 +9,23 @@ module.exports = app => {
             return res.status(400).send('Informe o usuário e a senha')
         }
 
-        const user = await userServices.getByEmail(req.body.email)
+        const usuario = await userServices.getByEmail(req.body.email)
 
-        if(!user){
+        if(!usuario){
             return res.status(400).send('Usuário não encontrado')
         }
 
-        const validarSenha = bcrypt.compareSync(req.body.password, user.password)
+        const validarSenha = bcrypt.compareSync(req.body.password, usuario.password)
         if(!validarSenha){
             return res.status(401).send("Email ou Senha Inválidos")
         }
         const instancia = Math.floor(Date.now()/1000)
 
         const payload = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            admin: user.admin,
+            id: usuario.id,
+            name: usuario.name,
+            email: usuario.email,
+            admin: usuario.admin,
             iat: instancia,
             exp: instancia + (60 * 60 * 24 * 3)
         }

@@ -11,7 +11,7 @@ module.exports = app => {
     }
 
     const estrategia = new Strategy(params, (payload, done) => {
-        userServices.getById(payload.id).then(user => done(null, user ? { ...payload } : false)).catch(err => done(err, false))
+        userServices.getById(payload.id).then(usuario => done(null, usuario ? { ...payload } : false)).catch(err => done(err, false))
     })
 
     passport.use(estrategia)

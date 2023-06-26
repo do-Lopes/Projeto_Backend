@@ -15,7 +15,7 @@ module.exports = app => {
         if(!req.originalUrl.startsWith('/users')){
             usuario.admin = false
         }
-        if(!req.usuario || !req.usuario.admin){
+        if(!req.user || !req.user.admin){
             usuario.admin = false
         }
 

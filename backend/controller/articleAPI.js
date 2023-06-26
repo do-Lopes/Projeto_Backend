@@ -47,9 +47,10 @@ module.exports = app => {
     }
 
     const get = async (req, res) => {
-        const { page, size } = req.query
-        const { limit, offset } = getPaginacao(page, size)
-        articleServices.listLimit(limit, offset).then(artigos => res.json({ data: artigos, limit })).catch(err => res.status(500).send(err))
+        var { pagina, limite } = req.query
+        pagina = pagina - 1
+        const { limit, offset } = getPaginacao(pagina, limite)
+        await articleServices.listLimit(limit, offset).then(artigos => res.json({ data: artigos, limit })).catch(err => res.status(500).send(err))
     }
 
     const getById = async (req, res) => {
