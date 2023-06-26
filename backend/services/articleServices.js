@@ -11,7 +11,7 @@ module.exports = {
 
     list: async function() {
         const articles = await Article.findAll()
-            return articles        
+        return articles        
     },
     
     
@@ -38,11 +38,11 @@ module.exports = {
     },
 
     delete: async function(id) {
-        return await AuthorModel.destroy({where: { id: id }})
+        return await Article.destroy({where: { id: id }})
     },
 
     getByUserId: async function(id){
-        return await Article.findOne({where: {userId: id} })
+        return await Article.findAll({where: {userId: id} })
     },
 
     getById: async function(id) {

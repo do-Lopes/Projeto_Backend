@@ -10,12 +10,16 @@ const Article = sequelize.define('Article', {
         autoIncrement: true,
         allowNull: false,
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     description: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     content:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
 }, 

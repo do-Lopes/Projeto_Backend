@@ -1,7 +1,7 @@
 const articleServices = require('../services/articleServices')
 
 module.exports = app => {
-    const {ValidaTamanho, ValidaRepetição, ValidaIgualdade, getPaginacao} = app.config.validation
+    const {ValidaNaoNulo, getPaginacao} = app.config.validation
 
     const save = (req, res) => {
         const artigo = { ...req.body }
@@ -10,16 +10,23 @@ module.exports = app => {
         }
 
         try{
-            ValidaTamanho(artigo.name, "Nome não informado")
-            ValidaTamanho(artigo.description, "Descrição não informada")
-            ValidaTamanho(artigo.categoryId, "Categoria não informada")
-            ValidaTamanho(artigo.userId, "Autor não informado")
-            ValidaTamanho(artigo.content, "Conteudo não informado")
+
+            ValidaNaoNulo(artigo.name, "Nome não informado")
+
+            ValidaNaoNulo(artigo.description, "Descrição não informada")
+            
+            ValidaNaoNulo(artigo.categoryId, "Categoria não informada")
+
+            ValidaNaoNulo(artigo.userId, "Autor do artigo não informado")
+
+            ValidaNaoNulo(artigo.content, "Conteudo do artigo não informado")
+
         } catch (msg){
             res.status(400).send(msg)
         }
+
         if(artigo.id){
-            articleServices.update(artigo.id, artigo.name, artigo.description,artigo.categoryId, artigo.userId, artigo.content).then(_ => res.status(204).send()).catch(err => res.status(500).send(err))
+            articleServices.update(artigo.id, artigo.name, artigo.description, artigo.categoryId, artigo.userId, artigo.content).then(_ => res.status(204).send()).catch(err => res.status(500).send(err))
         } else {
             articleServices.save(artigo.name, artigo.description, artigo.categoryId, artigo.userId, artigo.content).then(_ => res.status(204).send()).catch(err => res.status(500).send(err))
         }
@@ -27,9 +34,9 @@ module.exports = app => {
 
     const remove = async (req, res) => {
          try{
-            const ArtigoApagado = await articleServices.remove(req.params.id)     
+            const ArtigoApagado = await articleServices.delete(req.params.id)
             try{
-                ValidaTamanho(ArtigoApagado, "O artigo não foi encontrado")
+                ValidaNaoNulo(ArtigoApagado, "O artigo não foi encontrado")
             } catch (msg) {
                 return res.status(400).send(msg)
             }
@@ -45,19 +52,17 @@ module.exports = app => {
         articleServices.listLimit(limit, offset).then(artigos => res.json({ data: artigos, limit })).catch(err => res.status(500).send(err))
     }
 
-    const getById = (req, res) => {
-        articleServices.getById(req.params.id).then(artigo => {
-            artigo.content = artigo.content.toString()
-            return res.json(artigo)})
-            .catch(err => res.status(500).send(err))
+    const getById = async (req, res) => {
+        await articleServices.getById(req.params.id).then(artigos => {return res.json(artigos)}).catch(err => res.status(500).send(err))
     }
 
-    const getByCategoryId = (req, res) => {
-        articleServices.getByCategoryId(req.params.categoryId).then(artigo => {
-            artigo.content = artigo.content.toString()
-            return res.json(artigo)})
-            .catch(err => res.status(500).send(err))
+    const getByCategoryId = async (req, res) => {
+        await articleServices.getByCategoryId(req.params.id).then(artigos => {return res.json(artigos)}).catch(err => res.status(500).send(err))
     }
 
-    return { save, get, remove, getById, getByCategoryId }
+    const getByUserId = async(req, res) => {
+        await articleServices.getByUserId(req.params.id).then(artigos => {return res.json(artigos)}).catch(err => res.status(500).send(err))
+    }
+
+    return { save, get, remove, getById, getByCategoryId, getByUserId }
 }

@@ -24,7 +24,7 @@ module.exports = app => {
         await articleService.save("Artigo de VueJS", "breve descrição do projeto", "1", "1", "Os porques do Vuejs ser utilizado")
         await articleService.save("Artigo de React", "React e suas aplicações", "2", "2", "Como o React é utilizado hoje")
         await articleService.save("Como utilizar o VueJS", "Tutorial de instalação", "3", "3", "Primeiro conecte-se a internet")
-        await articleService.save("Artigo de BLockchain", "Sobre a blockchain", "4", "4", "A segurança por trás da blockchain")
+        await articleService.save("Artigo de Blockchain", "Sobre a blockchain", "4", "4", "A segurança por trás da blockchain")
         await articleService.save("Como utilizar o VueJS", "Tutorial de intalação", "5", "5", "Entre do site..")
         
         res.status(204).send("Cadastro finalizado")

@@ -3,7 +3,7 @@ const articleServices = require('../services/articleServices')
 
 module.exports = app => {
 
-    const {ValidaTamanho, ValidaRepetição, ValidaIgualdade, EncryptSenha} = app.config.validation
+    const {ValidaNaoNulo, ValidaVazio, ValidaIgualdade, EncryptSenha} = app.config.validation
 
     const save = async(req, res) => {
         const usuario = { ...req.body }
@@ -20,16 +20,16 @@ module.exports = app => {
         }
 
         try{
-            ValidaTamanho(usuario.name, "Nome não informado")
-            ValidaTamanho(usuario.email, "Email não informado")
-            ValidaTamanho(usuario.password, "Senha não informada")
-            ValidaTamanho(usuario.confirmPassword, "Confirmação de senha inválida")
+            ValidaNaoNulo(usuario.name, "Nome não informado")
+            ValidaNaoNulo(usuario.email, "Email não informado")
+            ValidaNaoNulo(usuario.password, "Senha não informada")
+            ValidaNaoNulo(usuario.confirmPassword, "Confirmação de senha inválida")
             ValidaIgualdade(usuario.password, usuario.confirmPassword, "Senhas incompatíveis")
 
             const usuarioResgatado = await userService.getByEmail(usuario.email)
             
             if(!usuario.id){
-                ValidaRepetição(usuarioResgatado, 'Usuario ja cadastrado')
+                ValidaVazio(usuarioResgatado, 'Usuario ja cadastrado')
             }
         } catch (msg) {
             return res.status(400).send(msg)
@@ -52,10 +52,10 @@ module.exports = app => {
     const remove = async(req, res) => {
         try {
             const artigos = await articleServices.getByUserId(req.params.id)
-            ValidaRepetição(artigos, 'Usuário possui artigos.')
+            ValidaVazio(artigos, 'Usuário possui artigos.')
 
             const usuario = await userService.delete(req.params.id)
-            ValidaTamanho(usuario, 'Usuário não foi encontrado.')
+            ValidaNaoNulo(usuario, 'Usuário não foi encontrado.')
 
             if(usuario.admin) res.status(400).send("Usuario administador não pode ser removido")
                 

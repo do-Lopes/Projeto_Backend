@@ -17,7 +17,7 @@ module.exports = app => {
 
         const validarSenha = bcrypt.compareSync(req.body.password, user.password)
         if(!validarSenha){
-            return res.status(401).send("Email/Senha Inválidos")
+            return res.status(401).send("Email ou Senha Inválidos")
         }
         const instancia = Math.floor(Date.now()/1000)
 

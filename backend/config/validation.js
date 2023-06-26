@@ -1,15 +1,21 @@
 const bcrypt = require('bcrypt-nodejs')
 
 module.exports = app => {
-    function ValidaTamanho(valor, msg) {
+
+    function EncryptSenha (password){
+        const nonce = bcrypt.genSaltSync(10)
+        return bcrypt.hashSync(password, nonce)
+    }
+    
+    function ValidaNaoNulo(valor, msg) {
         if(!valor || (Array.isArray(valor) && valor.lenght === 0) || typeof valor === 'string' && !valor.trim()){
             throw msg
         }
     }
 
-    function ValidaRepetição(valor, msg){
+    function ValidaVazio(valor, msg){
         try{
-            ValidaTamanho(valor, msg)
+            ValidaNaoNulo(valor, msg)
         } catch(msg){
             return
         }
@@ -28,10 +34,5 @@ module.exports = app => {
         return { limit, offset }
     }
 
-    function EncryptSenha (password){
-        const nonce = bcrypt.genSaltSync(10)
-        return bcrypt.hashSync(password, nonce)
-      }
-
-    return {ValidaTamanho, ValidaRepetição, ValidaIgualdade, getPaginacao, EncryptSenha}
+    return {ValidaNaoNulo, ValidaVazio, ValidaIgualdade, getPaginacao, EncryptSenha}
 }
