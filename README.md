@@ -7,6 +7,6 @@
 ### 🛑 Para a utilização do front-end em conjunto do back-end é necessário fazer algumas alterações 🛑
 #### ➡️ No arquivo *routes.js*, localizado na pasta /config do back-end, algumas linhas de código devem ser comentadas para o funcionamento correto das páginas.
 ![image](https://github.com/do-Lopes/Projeto_FullStack/assets/104912926/b5d1c4e4-f320-4d8e-bea6-fac5e62bcf35)
-![image](https://github.com/do-Lopes/Projeto_FullStack/assets/104912926/ce94ac5e-35a9-459f-8558-5450df9619ce)
+![image](https://github.com/do-Lopes/Projeto_FullStack/assets/104912926/5bd3c66b-5419-479c-9fad-15a26766fed9)
 
 ✅ Após isso, utilize o comando *npm start* no back-end e, em seguida, utilize a extensão live server do Visual Studio no arquivo **login.html** e o serviço front-end funcionará.
